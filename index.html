@@ -1,69 +1,23 @@
 <!DOCTYPE html>
+ 
 <html>
+    
     <head>
-        <meta charset="utf-8" />
-        <script src="js/enchant.min.js"></script>
+        <meta charset="UTF-8">
+        <title>gl.enchant.js Guide - Step02 Camera3D を使って 3D用カメラを設置しよう!</title>
+        <style>
+            * {
+                margin: 0px;
+                padding: 0px;
+            }
+        </style>
+        <script type="text/javascript" src="js/gl-matrix-min.js"></script>
+        <script type="text/javascript" src="js/enchant.min.js"></script>
+        <script type="text/javascript" src="js/plugins/gl.enchant.js"></script>
+        <script type="text/javascript" src="js/plugins/primitive.gl.enchant.js"></script>
+        <script type="text/javascript" src="js/toonfshader.js"></script>
+        <script type="text/javascript" src="js/view.js"></script>
     </head>
     <body>
-        <script>
-            enchant(); // initialize
-
-            // enchant.jsの表示をセンタリング
-            var moveStageToCenter = function(core) {
-                var stagePos = {
-                    top: (window.innerHeight - (core.height * core.scale)) / 2,
-                    left: (window.innerWidth - (core.width * core.scale)) / 2,
-                };
-                var stage = document.getElementById('enchant-stage');
-                stage.style.position = 'absolute';
-                stage.style.top = stagePos.top + 'px';
-                stage.style.left = stagePos.left + 'px';
-                core._pageX = stagePos.left;
-                core._pageY = stagePos.top;
-            };
-            
-            var game = new Core(340, 340); // game stage
-            game.preload('images/icon1.png', 'board.jpeg'); // preload image
-            game.fps = 20;
-        
-
-            game.onload = function(){
-                moveStageToCenter(game);
-                var board = new Sprite(340, 340);
-                board.image = game.assets['board.jpeg'];
-                board.x = (game.width - 340) / 2; 
-                board.y = (game.height - 340) / 2;
-                game.rootScene.addChild(board);
-                drawMap(6, 16*2.595);
-            };
-        
-            game.start(); // start your game!
-
-            function drawStone(x, y, frame){
-                var size = 2.595;
-                var stone = new Sprite(16, 16);
-                stone.image = game.assets['images/icon1.png'];
-                stone.scale(size, size);
-                game.rootScene.addChild(stone);
-                stone.x = x + (16*size-16)/2; 
-                stone.y = y + (16*size-16)/2;
-                stone.frame = [frame];
-                return stone;
-            }
-
-            function drawMap(n, size){
-                var maxsize = size * n;
-                var h = (game.height - maxsize) / 2;
-                var w = (game.width - maxsize) / 2;
-                var stones = new Array(n);
-                for(var i=0; i<n; i++){
-                    stones[i] = new Array(n);
-                    for(var j=0; j<n; j++){
-                        stones[i][j] = drawStone(w+j*size, h+i*size, 2);
-                    }
-                }
-                return stones;
-            }
-        </script>
     </body>
 </html>
