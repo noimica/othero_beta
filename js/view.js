@@ -273,7 +273,8 @@ var BoardPiece = Class.create(Box, {
         this.scaleZ = 4;
 
         this.addEventListener(Event.ENTER_FRAME, this.onEnterFrame);
-        this.ontouchstart = this.touched;
+        //this.ontouchstart = this.touched;
+        this.addEventListener('touchstart', this.touched);
     },
 
     onEnterFrame : function(){
