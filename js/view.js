@@ -239,24 +239,6 @@ var StoneSprite = Class.create(Cylinder, {
     }
 });
 
-/*
-var Stones = Class.create({
-    initialize : function(scene, n, size){
-        var maxsize = size * n;
-        var h = (-maxsize + size)/2;
-        var w = (-maxsize + size)/2;
-        this.stones = new Array(n);
-        for(var i=0; i<n; i++){
-            this.stones[i] = new Array(n);
-            for(var j=0; j<n; j++){
-                this.stones[i][j] = new StoneSprite(w+j*size, h+i*size);
-                scene.addChild(this.stones[i][j]);   
-            }
-        }
-    },
-});
-*/
-
 var BoardPiece = Class.create(Box, {
     initialize : function(x, y, i, j, stone, board){
         Box.call(this);
