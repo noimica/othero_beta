@@ -65,7 +65,7 @@ function init(){
     APP.camera = new THREE.PerspectiveCamera( 60, canW/canH, 1, 1000);
     APP.scene.add(APP.camera);
     APP.camera.lookAt(new THREE.Vector3(0, 0, 0));
-    APP.camera.position.set( 0, 0, 8);
+    APP.camera.position.set(0, 0, 8);
     // ライト:環境光 + ポイントライトx3
     /*
     var ambientLight = new THREE.AmbientLight( 0x888888 );
@@ -125,7 +125,7 @@ function init(){
         APP.boxs[i].ctx = tmp_ctx;
 
         APP.boxs[i].material.map.needsUpdate = true;
-        APP.boxs[i].position.set(5, i - n/2 - 0.5, -4);
+        APP.boxs[i].position.set(5, i - n/2 - 0.5, -0.5);
         APP.boxs[i].castShadow = true;
         APP.boxs[i].rotation.y = Math.PI;
         APP.boxs[i].add(APP.cube);
@@ -179,7 +179,7 @@ function init(){
     APP.view_box.ctx = tmp_ctx;
 
     APP.view_box.material.map.needsUpdate = true;
-    APP.view_box.position.set(5, 4, -4);
+    APP.view_box.position.set(5, 4, -0.5);
     APP.view_box.castShadow = true;
     APP.view_box.rotation.x = Math.PI;
     APP.view_box.add(APP.cube);
@@ -201,7 +201,7 @@ function init(){
     })();
     APP.view_box.name = APP.view_box;
     APP.scene.add(APP.view_box);   
-    //*
+    /*
     //コントローラー
     controls = new THREE.OrbitControls(APP.camera, APP.renderer.domElement);
     controls.minDistance = 10;
@@ -250,6 +250,9 @@ class StoneSprite {
         this.stone.castShadow = true;
         //this.stone.receiveShadow = true;
 
+        //this.light = new THREE.PointLight( 0xffffff, 5, 100 );  // 白、強さ5、距離100まで減衰
+        //this.light.position.set(x,y,0);
+
         this.moving = false;
         this.cnt = 0;
         this.turn = null; //ターンの方向
@@ -272,8 +275,11 @@ class StoneSprite {
             if(turnframe <= this.cnt + 1){
                 this.turn = null;
                 this.nowcolor = this.nextcolor;
+                this.stone.position.z = 0;
+                //this.light.power = 0;
             }else{
                 this.cnt++;
+                //this.light.power = 5;
             }
             this.moving = false;
         }
@@ -323,7 +329,7 @@ class BoardPiece {
         
 
         var geometry = new THREE.CubeGeometry(1.1,1.1,1.1);
-        var material = new THREE.MeshPhongMaterial({color: 0xFF0000,side: THREE.DoubleSide});
+        var material = new THREE.MeshPhongMaterial({color: 0xDDDDDD,side: THREE.DoubleSide});
         this.piece = new THREE.Mesh(geometry, material);
         this.piece.position.set(x, y, -0.7);
         this.piece.receiveShadow = true;
@@ -394,6 +400,7 @@ class Board {
                 this.stones[i][j] = new StoneSprite(w+j*size, h+i*size);
                 this.stones[i][j].stone.name = this.stones[i][j];
                 scene.add(this.stones[i][j].stone);
+                scene.add(this.stones[i][j].light);
                 APP.targetList.push(this.stones[i][j].stone);
 
                 this.board[i][j] = new BoardPiece(w+j*size, h+i*size, i, j, this.stones[i][j], this.board);
